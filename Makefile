@@ -5,7 +5,7 @@ build: clean
 	gcc -Wall -g $(SOURCE) -o $(PROG)
 
 run: build
-	./$(PROG) < map.in
+	time ./$(PROG) < map.in
 
 clean:
 	rm -rf *.o *~ $(PROG)

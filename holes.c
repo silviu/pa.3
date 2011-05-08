@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define HOLE 0
+#define ROAD 1
+int NO = 2;
 int** alloc_mat(int n, int m)
 {
 	int i;
@@ -36,20 +39,25 @@ int** read_map(int* n, int* m)
 	char c;
 	
 	scanf("%d %d\n", n, m);
+	*n = *n + 1;
+	*m = *m + 1;
 	int** map = alloc_mat(*n, *m);
 	
 	if (NULL == map)
 		return NULL;
 	
-	for (i = 0; i < *n; i++) {
-		for (j = 0; j < *m; j++) {
+	for (i = 1; i < *n; i++) {
+		for (j = 1; j < *m; j++) {
 			scanf("%c", &c);
 			// there is a good road
 			if (c == '.')
-				map[i][j] = 1;
+				map[i][j] = ROAD;
 			// there is a hole in the rod
-			else
-				map[i][j] = 0;
+			else {
+				map[i][j] = HOLE;
+				map[i][0]++;
+				map[0][j]++;
+			}
 		}
 		scanf("\n");
 	}
@@ -67,6 +75,73 @@ void print_map(int** map, int n, int m)
 	}
 }
 
+int has_vertical_neighbours(int** map, int i, int j, int n)
+{
+	if (i - 1 > 0 && map[i - 1][j] == HOLE)
+		return 1;
+	
+	if (i + 1 < n && map[i + 1][j] == HOLE)
+		return 1;
+	
+	return 0;
+}
+
+int next_is_hole(int** map, int i, int j, int n, int m)
+{
+	if (j < m)
+	if( map[i][j] == HOLE)
+		return 1;
+	
+	return 0;
+}
+
+void cover_line_of_isolated(int** map, int start_i, int start_j, int n, int m, int NO)
+{
+	int i = start_i;
+	int j = start_j;
+	
+	while(next_is_hole(map, i, j, n , m))
+	{
+		map[i][j] = NO;
+		j++;
+	}
+	
+	map[start_i][0] -= (j - start_j);
+}
+
+void isolated_on_line(int** map, int n, int m)
+{
+	int i, j;
+	for (i = 1; i < n; i++) {
+		// if there are no holes on this line
+		// go to next line
+		if (map[i][0] == 0)
+			continue;
+		
+		int saved_coords = 0;
+		int start_i = -1, start_j = -1;
+		
+		for (j = 1; j < m; j++) {
+			// go to first hole in current line
+			if (map[i][j] != HOLE)
+				continue;
+			// coordinates for potensial new line block
+			if (!saved_coords) {
+				start_i = i;
+				start_j = j;
+				saved_coords = 1;
+			}
+			
+			if (has_vertical_neighbours(map, i, j, n))
+				continue;
+			
+			cover_line_of_isolated(map, start_i, start_j, n, m, NO);
+			NO++;
+		}
+	}
+				
+}
+
 int main()
 {
 	int n, m, **map = NULL;
@@ -75,6 +150,9 @@ int main()
 	if (NULL == map)
 		return EXIT_FAILURE;
 	
+	print_map(map, n, m);
+	printf("\n");
+	isolated_on_line(map, n, m);
 	print_map(map, n, m);
 	
 	free_mat(map, n, m);	
