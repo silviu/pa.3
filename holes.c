@@ -3,7 +3,7 @@
 
 #define HOLE 0
 #define ROAD 1
-int NO = 2;
+int NO = 1;
 int** alloc_mat(int n, int m)
 {
 	int i;
@@ -77,10 +77,10 @@ void print_map(int** map, int n, int m)
 
 int has_vertical_neighbours(int** map, int i, int j, int n)
 {
-	if (i - 1 > 0 && map[i - 1][j] == HOLE)
+	if (i - 1 > 0 && map[i - 1][j] != ROAD)
 		return 1;
 	
-	if (i + 1 < n && map[i + 1][j] == HOLE)
+	if (i + 1 < n && map[i + 1][j] != ROAD)
 		return 1;
 	
 	return 0;
@@ -103,10 +103,25 @@ void cover_line_of_isolated(int** map, int start_i, int start_j, int n, int m, i
 	while(next_is_hole(map, i, j, n , m))
 	{
 		map[i][j] = NO;
+		// calculate the number of holes left on this column
+		map[0][j]--;
 		j++;
 	}
 	
+	// calculate the number of holes left on this line
 	map[start_i][0] -= (j - start_j);
+	NO++;
+}
+
+int has_no_line_neighbours(int** map, int i, int j, int n , int m)
+{
+	if (j + 1 >= m)
+		return 1;
+	
+	if (map[i][j + 1] != HOLE)
+		return 1;
+	
+	return 0;
 }
 
 void isolated_on_line(int** map, int n, int m)
@@ -125,18 +140,28 @@ void isolated_on_line(int** map, int n, int m)
 			// go to first hole in current line
 			if (map[i][j] != HOLE)
 				continue;
-			// coordinates for potensial new line block
+			
+			// if it is a single hole with no neighbours (vertical or horizontal)
+			// fill the hole
+			if (has_no_line_neighbours(map, i, j, n , m) && !has_vertical_neighbours(map, i, j, n)) {
+				map[i][j] = NO;
+				NO++;
+				map[i][0]--;
+				map[0][j]--;
+			}
+			// coordinates for potential new line block
 			if (!saved_coords) {
 				start_i = i;
 				start_j = j;
 				saved_coords = 1;
 			}
 			
+			// look-up first hole that has no vertical neighbour holes (isolated)
 			if (has_vertical_neighbours(map, i, j, n))
 				continue;
 			
 			cover_line_of_isolated(map, start_i, start_j, n, m, NO);
-			NO++;
+			saved_coords = 0;
 		}
 	}
 				
