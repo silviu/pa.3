@@ -1,11 +1,11 @@
-SOURCE = holes.c
+SOURCE = holes.cpp
 PROG = holes
 
-build: clean
-	gcc -Wall -g $(SOURCE) -o $(PROG)
+build:
+	g++ $(SOURCE) -o $(PROG)
 
-run: build
-	time ./$(PROG) < map.in
+run:
+	./$(PROG)
 
 clean:
 	rm -rf *.o *~ $(PROG)

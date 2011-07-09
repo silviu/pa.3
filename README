@@ -1,0 +1,59 @@
+Proiectarea Algoritmilor
+
+Tema 3 – Asfaltarea gropilor
+
+Descrierea problemei
+A venit primăvara !
+Așa cum era de așteptat însă, aceasta nu este o veste prea bună pentru
+Primăria Capitalei. Ca în fiecare an, după sezonul rece urmează “sezonul
+asfaltărilor”. După o iarnă grea și friguroasă, străzile se află într-o stare
+deplorabilă iar cetățenii sunt profund nemulțumiți. Mașinile ajung mai des
+în service decât în parcare. Dacă luăm în considerare și faptul că în curând
+va începe campania electorală, lucrurile pot lua o întorsătură neplăcută
+pentru autorități. În același timp, datorită crizei financiare, Primăria nu
+dispune de fonduri suficiente pentru a asigura cumpărarea materialului
+necesar asfaltării tuturor străzilor și va trebui să aștepte următoarea
+rectificare de buget care va fi abia în luna iunie. Ca soluție de compromis,
+Primăria decide să așeze plăci subțiri de beton peste toate gropile din
+oraș.
+Harta rutieră a orașului București poate fi caracterizată printr-o matrice
+bidimensională de dimensiune N x M unde fiecare poziție poate
+reprezenta fie o bucata de șosea practicabilă, fie poate semnala prezența
+unei gropi. Primăria dorește așadar să acopere gropile cu un număr de
+plăci subțiri de beton. Fiecare placă are o forma dreptunghiulară cu lățime
+de o unitate și poate fi oricât de lungă. Ea trebuie să fie obligatoriu
+aliniată paralel cu una din marginile matricei.
+Cerință
+Calculați numărul minim de plăci de beton pentru a acoperi în întregime
+gropile din șosea.
+Date de intrare
+Pe prima linie la standard input sunt date două numere întregi N și M,
+reprezentând numărul liniilor, respectiv al coloanelor hărții Bucureștiului.
+Pe următoarele N linii se regăsesc M caractere, neseparate prin spații, cu
+următoarele semnificații:
+'O' – groapă
+'.' - șosea practicabilă.
+Date de ieșire
+Pe prima linie de la standard output, veți afișa un singur număr,
+reprezentând minimul de plăci de beton de care Primăria Capitalei are
+nevoie pentru a acoperi în întregime toate gropile din șosea.
+
+Restricții și precizări
+• 1 <= N, M <= 50
+• Plăcile de beton NU au voie să acopere porțiunile existente de șosea practicabilă
+• Plăcile de beton au voie să se suprapuna între ele
+• Gropile au aceeași dimensiune
+• Se neglijează eventualele acumulări obținute în urma suprapunerii
+mai multor plăci de beton
+
+Exemplu:
+standard input
+44
+
+standard output
+4
+
+O.O.
+.OOO
+OOO.
+..O.

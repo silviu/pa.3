@@ -1,0 +1,12 @@
+Grijincu Silviu
+334 CB
+
+In rezolvarea temei am gasit blocurile de gropi pe linii si pe coloane, iar
+intersectia dintre aceste linii si coloane(blocuri de gropi) devin intrari
+in matricea de adiacenta folosita in algoritmul de flux.
+
+Pe matricea de adiacenta obtinuta se calculeaza fluxul maxim pe graful bipartit.
+Astfel se afla numarul de cai disjuncte.
+
+Dupa fiecare parcurgere a grafului BFS scad capacitatea minima din matricea
+de capacitati si o adaug la flux.
